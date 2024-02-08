@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Vente Pizza</h1>
+    <form>
+        <div id="verification">
+        Nom de client :<input id="Nom" name="nomclient" required>
+        Adresse: <input id="Adresse" name="AdresseClient" required>
+        <h2>Produit à acheter  </h2>
+        <table border="1">
+            <tr>
+                <th>Nom du produit </th>
+                <th>Prix unitaire en Dh </th>
+                <th>quantité</th>
+            </tr>
+            <tr>
+                <td>Pizza 4 fromages </td>
+                <td>60 </td>
+                <td><input type="number" id="quantité4frommage" min="0"></td>
+            </tr>
+            <tr>
+                <td>Pizza Herbo </td>
+                <td>75</td>
+                <td><input type="number" id="quantitéHerbo" min="0"></td>
+            </tr>
+            <tr>
+                <td>Pizza viande hachée </td>
+                <td>100</td>
+                <td><input type="number" id="quantitéViande" min="0"></td>
+            </tr>
+            <tr>
+                <td>Pizza fruit de mer  </td>
+                <td>120</td>
+                <td><input type="number" id="quantitéMer" min="0" ></td>
+            </tr>
+        </table>
+        </div>
+        <h4>paiement par:</h4>
+        <div>
+             <div>
+                <input type="radio" name="payment" value="carte" id="carte"  onclick="toggleCardInput(false)" />
+                <label for="carte">Carte bancaire</label>
+            </div>
+            <div>
+                <input type="radio" name="payment" value="cheque" id="cheque" checked onclick="toggleCardInput(true)" />
+                <label for="cheque">Cheque</label>
+            </div>
+        </div>
+        <label for="cardNumber">Numéro de carte bancaire:</label>
+        <input type="text" id="cardNumber" disabled><br>
+        <button type="submit" id="button">Envoyer</button> <br>
+        <span id="ordto"></span>
+
+
+    </form>
+    <script>
+        function toggleCardInput(val){
+            var cardNumberInput = document.getElementById("cardNumber");
+            cardNumberInput.disabled=val;
+        }
+
+        function verification(){
+            var name=document.querySelector("#Nom").value;
+            var adresse=document.querySelector("#Adresse").value;
+            var payment = document.querySelector('input[name="payment"]:checked').value;
+            if (!name || !adresse) {
+                alert("Veuillez remplir les champs obligatoires : Nom du client et Adresse.");
+                return;
+            }
+            var quantité4frommage=parseInt(document.getElementById("quantité4frommage").value)||0;
+            var quantitéHerbo=parseInt(document.getElementById("quantitéHerbo").value)||0;
+            var quantitéMer=parseInt(document.getElementById("quantitéMer").value)||0;
+            var quantitéViande=parseInt(document.getElementById("quantitéViande").value)||0;
+            if(quantité4frommage==0 &&  quantitéHerbo==0 && quantitéMer==0 && quantitéViande==0){
+                alert("Veuillez commander au moins une pizza.");
+                return;
+            }
+            if (payment === "carte") {
+                const cardNumber = document.getElementById("cardNumber").value;
+                if (!cardNumber) {
+                    alert("Veuillez saisir le numéro de carte bancaire.");
+                    return;
+                }
+            console.log(name);
+        
+            }
+            const fommagePrice = 60.00;
+            const HerboPrice = 75.00;
+            const MerPrice = 120.00;
+            const ViandePrice = 100.00; 
+            let totalPrice = (quantité4frommage *fommagePrice ) + (quantitéHerbo * HerboPrice)  + (quantitéMer * MerPrice) + (quantitéViande * ViandePrice ); 
+            document.getElementById("ordto").innerText = `Total à payer pour ${name}: ${totalPrice} dhs`;
+       
+        }
+
+
+        document.querySelector("#button").addEventListener("click", function (event) {
+        event.preventDefault(); // Empêche la soumission par défaut du formulaire
+        verification();
+        });
+
+    </script>
+</body>
+</html>
